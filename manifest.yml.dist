@@ -1,0 +1,20 @@
+---
+
+applications:
+  - name: paas-metrics-collector-cw
+    buildpack: python_buildpack
+    command: ./run.sh python main.py
+    health-check-type: none
+    no-route: true
+    instances: 1
+    memory: 128M
+    env:
+      AWS_REGION: eu-west-1
+      SCHEDULE_INTERVAL: 60
+      CF_API_URL: https://api.cloud.service.gov.uk
+      CF_ORG: org-name
+      CF_SPACE: space-name
+      CLOUDWATCH_NAMESPACE: PAAS
+      PYTHONUNBUFFERED: 1
+    services:
+      - paas-metrics-collector-cw
