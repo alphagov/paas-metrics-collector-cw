@@ -7,9 +7,13 @@ If an application has multiple instances the minimum and maximum values are calc
 
 ## Installation
 
-Copy the manifest.yml.dist file as manifest.yml and fill out the environment variables to your needs.
+You need Ruby installed to generate the manifest file.
 
-Run ```cf push``` as usual.
+```
+CF_SPACE=<space name> CF_ORG=<org name> make cf-push
+```
+
+For additional variables please check the manifest.yml.erb file.
 
 ## Authentication
 
@@ -34,9 +38,8 @@ cf create-user-provided-service paas-metrics-collector-cw -p '<json>'
 
 You need the define the following extra variables:
 
+ * CF_USE_SERVICE=0
  * AWS_SECRET_ACCESS_KEY
  * AWS_ACCESS_KEY_ID
  * CF_USERNAME
  * CF_PASSWORD
-
-In this case you need to remove the services block from the manifest.yml and the "run.sh" from the command definition.

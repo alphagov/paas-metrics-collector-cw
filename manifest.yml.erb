@@ -1,0 +1,30 @@
+---
+
+<% cf_use_service = ENV.fetch("CF_USE_SERVICE", "1") == "1" %>
+
+applications:
+  - name: paas-metrics-collector-cw
+    buildpack: python_buildpack
+    command: <% if cf_use_service %>./run.sh <% end %>python main.py
+    health-check-type: none
+    no-route: true
+    instances: 1
+    memory: 128M
+    env:
+      AWS_REGION: <%= ENV.fetch("AWS_REGION", "eu-west-1") %>
+      SCHEDULE_INTERVAL: <%= ENV.fetch("SCHEDULE_INTERVAL", "60") %>
+      CF_API_URL: https://api.cloud.service.gov.uk
+      CF_ORG: <%= ENV.fetch("CF_ORG") %>
+      CF_SPACE: <%= ENV.fetch("CF_SPACE") %>
+      CLOUDWATCH_NAMESPACE: <%= ENV.fetch("CLOUDWATCH_NAMESPACE", "PAAS") %>
+      PYTHONUNBUFFERED: 1
+      <% if not cf_use_service %>
+      AWS_SECRET_ACCESS_KEY: "<%= ENV.fetch("AWS_SECRET_ACCESS_KEY") %>"
+      AWS_ACCESS_KEY_ID: "<%= ENV.fetch("AWS_ACCESS_KEY_ID") %>"
+      CF_USERNAME: "<%= ENV.fetch("CF_USERNAME") %>"
+      CF_PASSWORD: "<%= ENV.fetch("CF_PASSWORD") %>"
+      <% end %>
+    <% if cf_use_service %>
+    services:
+      - paas-metrics-collector-cw
+    <% end %>
