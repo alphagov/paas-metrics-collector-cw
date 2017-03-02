@@ -50,7 +50,7 @@ class MetricsCollector:
                 for organization in cf_client.organizations:
                     if organization['entity']['name'] != self.cf_org:
                         continue
-                    for space in organization.spaces(): # perform a GET on spaces_url attribute
+                    for space in organization.spaces():
                         if space['entity']['name'] != self.cf_space:
                             continue
                         for app in space.apps():
