@@ -1,2 +1,2 @@
-cloudfoundry-client==0.0.19
+cloudfoundry-client==0.0.20
 boto3==1.4.3
